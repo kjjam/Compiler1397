@@ -95,7 +95,7 @@ def calc_stateslalr1():
 			if sorted(s)==sorted(t):
 				for i in range(len(s)):
 					s[i].lookahead = list(set(s[i].lookahead + t[i].lookahead))
-					print(s[i].lookahead)
+					# print(s[i].lookahead)
 				return True
 
 		return False
@@ -199,40 +199,40 @@ def main():
 
 	firstfollow.main()
 
-	print("\tFIRST AND FOLLOW OF NON-TERMINALS")
-	for nt in ntl:
-		firstfollow.compute_first(nt)
-		firstfollow.compute_follow(nt)
-		print(nt)
-		print("\tFirst:\t", firstfollow.get_first(nt))
-		print("\tFollow:\t", firstfollow.get_follow(nt), "\n")	
+	# print("\tFIRST AND FOLLOW OF NON-TERMINALS")
+	# for nt in ntl:
+	# 	firstfollow.compute_first(nt)
+	# 	firstfollow.compute_follow(nt)
+	# 	print(nt)
+	# 	print("\tFirst:\t", firstfollow.get_first(nt))
+	# 	print("\tFollow:\t", firstfollow.get_follow(nt), "\n")	
 	
 
 	augment_grammar()
 	nt_list=list(ntl.keys())
 	t_list=list(tl.keys()) + ['$']
 
-	print(nt_list)
-	print(t_list)
+	# print(nt_list)
+	# print(t_list)
 
 	j=calc_stateslalr1()
 
-	ctr=0
-	for s in j:
-		print("Item{}:".format(ctr))
-		for i in s:
-			print("\t", i)
-		ctr+=1
+	# ctr=0
+	# for s in j:
+	# 	# print("Item{}:".format(ctr))
+	# 	for i in s:
+	# 		# print("\t", i)
+	# 	ctr+=1
 
 	table=make_tablelalr1(j)
-	print("table ")
+	# print("table ")
 
-	print("\n\tCLR(1) TABLE\n")
+	print("\n===== TABLE =====\n")
 
 	sr, rr=0, 0
 
 	for i, j in table.items():
-		print(i, "\t", j)
+		# print(i, "\t", j)
 		s, r=0, 0
 
 		for p in j.values():
@@ -245,7 +245,6 @@ def main():
 		if r>0 and s>0: sr+=1
 		elif r>0: rr+=1
 
-	print("\n", sr, "s/r conflicts |", rr, "r/r conflicts")
 
 
 
@@ -276,6 +275,9 @@ def main():
 			if r>0 and s>0: sr+=1
 			elif r>0: rr+=1
 
+	print("\n\n", sr, "s/r conflicts |", rr, "r/r conflicts\n")
+
+
 
 
 
@@ -284,7 +286,7 @@ def main():
 if __name__=="__main__":
 	main()
 	inString=input("please enter your string to validate  :  ")
-	print(string_validating.validation(firstfollow.production_list, final, inString+"$"))
+	string_validating.validation(firstfollow.production_list, final, inString+"$")
 
 	
 
