@@ -159,7 +159,7 @@ def main():
 	for nt in ntl:
 		firstfollow.compute_first(nt)
 		firstfollow.compute_follow(nt)
-		print(nt)
+		# print(nt)
 		print("\tFirst:\t", firstfollow.get_first(nt))
 		print("\tFollow:\t", firstfollow.get_follow(nt), "\n")	
 	

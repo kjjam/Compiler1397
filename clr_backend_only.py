@@ -193,7 +193,6 @@ def make_table(states):
 
 				else: SLR_Table[s.no][nextsym] = str(getstateno(t))
 	for st in SLR_Table:
-	# print(dict(SLR_Table[st]))
 		final.append(dict(SLR_Table[st]))
 	return SLR_Table
 
@@ -218,35 +217,24 @@ def main():
 	# contentMain = [c[:-1] for c in content if c and ("\n" in c)]
 	# print(content)
 	firstfollow.main()
-	# print("\tFIRST AND FOLLOW OF NON-TERMINALS")
-	# for nt in ntl:
-	# 	firstfollow.compute_first(nt)
-	# 	firstfollow.compute_follow(nt)
-	# 	print(nt)
-	# 	print("\tFirst:\t", firstfollow.get_first(nt))
-	# 	print("\tFollow:\t", firstfollow.get_follow(nt), "\n")	
-	
 
 	augment_grammar()
 	nt_list=list(ntl.keys())
 	t_list=list(tl.keys()) + ['$']
 
-	print(nt_list)
-	print(t_list)
+
 
 	j=calc_states()
 
 	ctr=0
-	for s in j:
-		print("Item{}:".format(ctr))
-		for i in s:
-			print("\t", i)
-		ctr+=1
+	# for s in j:
+	# 	print("Item{}:".format(ctr))
+	# 	for i in s:
+	# 		print("\t", i)
+	# 	ctr+=1
 
 	table=make_table(j)
-	print("table ")
-
-	# print("\n\tCLR(1) TABLE\n")
+	print(" ======== table ======== \n ")
 
 	sr, rr=0, 0
 
@@ -264,7 +252,6 @@ def main():
 		if r>0 and s>0: sr+=1
 		elif r>0: rr+=1
 
-	print("\n", sr, "s/r conflicts |", rr, "r/r conflicts")
 
 
 
@@ -294,6 +281,7 @@ def main():
 					else: s+=1		
 			if r>0 and s>0: sr+=1
 			elif r>0: rr+=1
+	print("\n\n\n", sr, "s/r conflicts |", rr, "r/r conflicts\n")
 
 
 
@@ -302,7 +290,7 @@ def main():
 
 if __name__=="__main__":
 	main()
-	inString=input("please enter your string to validate  :  ")
+	inString=input("\n please enter your string to validate  :  ")
 	string_validating.validation(firstfollow.production_list, final, inString+"$")
 
 	
