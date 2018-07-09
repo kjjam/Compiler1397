@@ -208,12 +208,8 @@ def augment_grammar():
 def main():
 
 	global production_list, ntl, nt_list, tl, t_list	
-	fname="grammer.txt"
-	f=open(fname)
-	content = f.readlines()
-	content=deleteBackslash(content)
-	content.append('')
-	content.append('')
+	
+
 	# contentMain = [c[:-1] for c in content if c and ("\n" in c)]
 	# print(content)
 	firstfollow.main()
