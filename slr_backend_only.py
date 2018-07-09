@@ -138,7 +138,7 @@ def make_table(states):
 					else: SLR_Table[s.no][nextsym] |= {'s'+str(getstateno(t))}
 
 				else: SLR_Table[s.no][nextsym] = str(getstateno(t))
-
+	print(SLR_Table)
 	return SLR_Table
 
 def augment_grammar():
@@ -179,7 +179,6 @@ def main():
 if __name__=="__main__":
 	main()
 	
-
 
 
 
