@@ -3,8 +3,11 @@ from collections import OrderedDict
 from pprint import pprint
 import firstfollow
 from firstfollow import production_list, nt_list as ntl, t_list as tl
-nt_list, t_list=[], []
+import string_validating
+import sys
 
+nt_list, t_list=[], []
+final=[]
 class State:
 
 	_id=0
@@ -88,7 +91,7 @@ def calc_states():
 
 
 def make_table(states):
-
+	global final
 	global nt_list, t_list
 
 	def getstateno(closure):
@@ -138,7 +141,8 @@ def make_table(states):
 					else: SLR_Table[s.no][nextsym] |= {'s'+str(getstateno(t))}
 
 				else: SLR_Table[s.no][nextsym] = str(getstateno(t))
-	print(SLR_Table)
+	for st in SLR_Table:
+		final.append(dict(SLR_Table[st]))
 	return SLR_Table
 
 def augment_grammar():
@@ -155,13 +159,10 @@ def main():
 
 	firstfollow.main()
 
-	print("\tFIRST AND FOLLOW OF NON-TERMINALS")
 	for nt in ntl:
 		firstfollow.compute_first(nt)
 		firstfollow.compute_follow(nt)
-		print(nt)
-		print("\tFirst:\t", firstfollow.get_first(nt))
-		print("\tFollow:\t", firstfollow.get_follow(nt), "\n")	
+		
 	
 
 	augment_grammar()
@@ -170,15 +171,41 @@ def main():
 
 	table=make_table(calc_states())
 
-	print("\tSLR(1) TABLE\n")
+	print("\n========= TABLE ========== \n")
+
+	sys.stdout.write("\t{}\t{}\n".format('\t'.join(t_list), '\t'.join(nt_list)))
+
 	for i, j in table.items():
-		print(i, "\t", j)
+			sys.stdout.write("\n{}\t".format(i))
+			for sym in t_list+nt_list:
+				if sym in table[i].keys():
+					if type(table[i][sym])!=type(set()): 
+						sys.stdout.write("{}\t".format(table[i][sym]))
+					else:
+						sys.stdout.write("{}\t".format(', '.join(table[i][sym])))
+				else:
+					sys.stdout.write("\t")
+			sys.stdout.write("\n")
+			s, r=0, 0
+
+			for p in j.values():
+				if p!='accept' and len(p)>1:
+					p=list(p)
+					if('r' in p[0]): r+=1
+					else: s+=1
+					if('r' in p[1]): r+=1
+					else: s+=1		
+			if r>0 and s>0: sr+=1
+			elif r>0: rr+=1
 
 	return 
 
 if __name__=="__main__":
 	main()
-	
+	# print(final)
+	inString=input("\n please enter your string to validate  :  ")
+	string_validating.validation(firstfollow.production_list, final, inString+"$")
+
 
 
 
