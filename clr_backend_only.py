@@ -303,7 +303,7 @@ def main():
 if __name__=="__main__":
 	main()
 	inString=input("please enter your string to validate  :  ")
-	print(string_validating.validation(firstfollow.production_list, final, inString+"$"))
+	string_validating.validation(firstfollow.production_list, final, inString+"$")
 
 	
 
