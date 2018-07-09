@@ -216,15 +216,15 @@ def main():
 	content.append('')
 	content.append('')
 	# contentMain = [c[:-1] for c in content if c and ("\n" in c)]
-	print(content)
-	firstfollow.production_list=firstfollow.main(content)
-	print("\tFIRST AND FOLLOW OF NON-TERMINALS")
-	for nt in ntl:
-		firstfollow.compute_first(nt)
-		firstfollow.compute_follow(nt)
-		print(nt)
-		print("\tFirst:\t", firstfollow.get_first(nt))
-		print("\tFollow:\t", firstfollow.get_follow(nt), "\n")	
+	# print(content)
+	firstfollow.main()
+	# print("\tFIRST AND FOLLOW OF NON-TERMINALS")
+	# for nt in ntl:
+	# 	firstfollow.compute_first(nt)
+	# 	firstfollow.compute_follow(nt)
+	# 	print(nt)
+	# 	print("\tFirst:\t", firstfollow.get_first(nt))
+	# 	print("\tFollow:\t", firstfollow.get_follow(nt), "\n")	
 	
 
 	augment_grammar()
@@ -234,7 +234,7 @@ def main():
 	print(nt_list)
 	print(t_list)
 
-	j=calc_stateslalr1()
+	j=calc_states()
 
 	ctr=0
 	for s in j:
@@ -246,12 +246,12 @@ def main():
 	table=make_table(j)
 	print("table ")
 
-	print("\n\tCLR(1) TABLE\n")
+	# print("\n\tCLR(1) TABLE\n")
 
 	sr, rr=0, 0
 
 	for i, j in table.items():
-		print(i, "\t", j)
+		# print(i, "\t", j)
 		s, r=0, 0
 
 		for p in j.values():
