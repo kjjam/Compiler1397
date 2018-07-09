@@ -123,43 +123,6 @@ def calc_states():
 	
 	return states 
 
-def calc_stateslalr1():
-	global final
-	def contains(states, t):
-
-		for s in states:
-			if len(s) != len(t): continue
-
-			if sorted(s)==sorted(t):
-				for i in range(len(s)):
-					s[i].lookahead = list(set(s[i].lookahead + t[i].lookahead))
-					print(s[i].lookahead)
-				return True
-
-		return False
-
-	global production_list, nt_list, t_list
-
-	head, body=production_list[0].split('->')
-
-
-	states=[closure([Item(head+'->.'+body, ['$'])])]
-	
-	while True:
-		flag=0
-		for s in states:
-
-			for e in nt_list+t_list:
-				
-				t=goto(s, e)
-				if t == [] or contains(states, t): continue
-
-				states.append(t)
-				flag=1
-
-		if not flag: break
-	
-	return states 
 
 def make_table(states):
 
@@ -174,67 +137,6 @@ def make_table(states):
 				for i in range(len(s.closure)):
 						if s.closure[i].lookahead!=t[i].lookahead: break
 				else: return s.no
-
-		return -1
-
-	def getprodno(closure):
-
-		closure=''.join(closure).replace('.', '')
-		return production_list.index(closure)
-
-	SLR_Table=OrderedDict()
-	
-	for i in range(len(states)):
-		states[i]=State(states[i])
-
-	for s in states:
-		SLR_Table[s.no]=OrderedDict()
-
-		for item in s.closure:
-			head, body=item.split('->')
-			if body=='.': 
-				for term in item.lookahead: 
-					if term not in SLR_Table[s.no].keys():
-						SLR_Table[s.no][term]={'r'+str(getprodno(item))}
-					else: SLR_Table[s.no][term] |= {'r'+str(getprodno(item))}
-				continue
-
-			nextsym=body.split('.')[1]
-			if nextsym=='':
-				if getprodno(item)==0:
-					SLR_Table[s.no]['$']='accept'
-				else:
-					for term in item.lookahead: 
-						if term not in SLR_Table[s.no].keys():
-							SLR_Table[s.no][term]={'r'+str(getprodno(item))}
-						else: SLR_Table[s.no][term] |= {'r'+str(getprodno(item))}
-				continue
-
-			nextsym=nextsym[0]
-			t=goto(s.closure, nextsym)
-			if t != []: 
-				if nextsym in t_list:
-					if nextsym not in SLR_Table[s.no].keys():
-						SLR_Table[s.no][nextsym]={'s'+str(getstateno(t))}
-					else: SLR_Table[s.no][nextsym] |= {'s'+str(getstateno(t))}
-
-				else: SLR_Table[s.no][nextsym] = str(getstateno(t))
-	for st in SLR_Table:
-	# print(dict(SLR_Table[st]))
-		final.append(dict(SLR_Table[st]))
-	return SLR_Table
-
-def make_tablelalr1(states):
-
-	global nt_list, t_list
-
-	def getstateno(t):
-
-		for s in states:
-			if len(s.closure) != len(t): continue
-
-			if sorted(s.closure)==sorted(t):
-				return s.no
 
 		return -1
 
@@ -325,7 +227,7 @@ def main():
 			print("\t", i)
 		ctr+=1
 
-	table=make_tablelalr1(j)
+	table=make_table(j)
 	print("table ")
 
 	print("\n\tCLR(1) TABLE\n")
