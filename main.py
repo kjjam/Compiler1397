@@ -13,10 +13,10 @@ elif(first_step == '2'):
     syntax_step = int(syntax_step)
     print("OK! Go and enter the grammer. like\nS->(A)\nA->a\nA->\n\n====   Enter   =====")
     if syntax_step == 1:
-        res = subprocess.check_output(["python3", "lr0_backend_only.py"])
+        res = os.system('python3 lr0_backend_only.py')
     elif syntax_step == 2:
-        res = subprocess.check_output(["python3", "clr_backend_only.py"])
+        res = os.system('python3 clr_backend_only.py')
     elif syntax_step == 3:
-        res = subprocess.check_output(["python3", "lalr1_backend_only.py"])
+        res = os.system('python3 lalr1_backend_only.py')
     elif syntax_step == 4:
-        res = subprocess.check_output(["python3", "slr_backend_only.py"])
+        res = os.system('python3 slr_backend_only.py')
