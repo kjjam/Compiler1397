@@ -218,7 +218,7 @@ def main():
 	print(nt_list)
 	print(t_list)
 
-	j=calc_stateslalr1()
+	j=calc_states()
 
 	ctr=0
 	for s in j:
