@@ -10,6 +10,16 @@ nt_list, t_list=[], []
 final=[]
 
 
+def deleteBackslash(strings):
+	temp=[]
+	for s in strings:
+		if "\n" in s:
+			temp.append(s[:-1])
+		else :
+			temp.append(s)
+	return temp
+
+
 
 class State:
 	_id=0
@@ -199,9 +209,15 @@ def augment_grammar():
 def main():
 
 	global production_list, ntl, nt_list, tl, t_list	
-
-	firstfollow.main()
-
+	fname="grammer.txt"
+	f=open(fname)
+	content = f.readlines()
+	content=deleteBackslash(content)
+	content.append('')
+	content.append('')
+	# contentMain = [c[:-1] for c in content if c and ("\n" in c)]
+	print(content)
+	firstfollow.production_list=firstfollow.main(content)
 	print("\tFIRST AND FOLLOW OF NON-TERMINALS")
 	for nt in ntl:
 		firstfollow.compute_first(nt)
